@@ -1,4 +1,38 @@
 window.onload = function () {
+  //Login
+  const loginForm = document.getElementById("login-form");
+  loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    let formData = new FormData(event.target);
+    let token = formData.get("token");
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.get("email"),
+          password: formData.get("password"),
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        document.getElementById(
+          "response"
+        ).innerHTML = `<p>User Email: ${data.user.email}<br>
+        User Name: ${data.user.name}<br>
+        User Token: ${data.token}</p>`;
+        await fetchAllPosts(token);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  //Get user
   const getForm = document.getElementById("get-user-form");
   getForm.addEventListener("submit", async function (event) {
     event.preventDefault();
