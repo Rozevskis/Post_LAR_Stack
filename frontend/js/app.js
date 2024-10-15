@@ -7,6 +7,8 @@ window.onload = function () {
   const authButtons = document.querySelector(".auth-buttons");
   const logoutLink = document.getElementById("logout-link");
   const createLink = document.getElementById("create-link");
+  const welcomeDiv = document.getElementById("welcome");
+  const postDiv = document.getElementById("posts");
 
   // Check authentication state on page load
   const token = localStorage.getItem("authToken");
@@ -14,10 +16,13 @@ window.onload = function () {
     authButtons.style.display = "none"; // Hide login/register buttons
     logoutLink.style.display = "block"; // Show logout button
     createLink.style.display = "block"; // Show create button
+    welcomeDiv.style.display = "none"; // Hide welcome message for registered users
+    postDiv.style.display = "block";
   } else {
     authButtons.style.display = "flex"; // Show login/register buttons
     logoutLink.style.display = "none"; // Hide logout button
     createLink.style.display = "none"; // hide create button
+    postDiv.style.display = "none";
   }
 
   // Register button click
@@ -63,12 +68,13 @@ window.onload = function () {
         // Hide the form and overlay after successful registration
         overlay.style.display = "none";
         registerForm.style.display = "none";
-        createLink.style.display = "block"; // Show create button
 
         // Update UI
         authButtons.style.display = "none"; // Hide the login/register buttons
         logoutLink.style.display = "block"; // Show the logout button
         createLink.style.display = "block"; // Show create button
+        welcomeDiv.style.display = "none";
+        postDiv.style.display = "block";
       } else {
         // Handle errors
         document.getElementById(
@@ -89,6 +95,8 @@ window.onload = function () {
     authButtons.style.display = "flex"; // Show login/register buttons
     logoutLink.style.display = "none"; // Hide the logout button
     createLink.style.display = "none"; // Show create button
+    welcomeDiv.style.display = "block";
+    postDiv.style.display = "none";
   });
 
   // Login overlay
@@ -130,6 +138,8 @@ window.onload = function () {
         authButtons.style.display = "none";
         logoutLink.style.display = "block";
         createLink.style.display = "block";
+        welcomeDiv.style.display = "none";
+        postDiv.style.display = "block";
         await fetchAllPosts(data.token);
       }
     } catch (error) {
@@ -142,13 +152,13 @@ window.onload = function () {
   createBtn.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the default anchor behavior
     overlay.style.display = "block"; // Show the background overlay
-    document.getElementById("create-post-form").style.display = "block"; // Show the login form
+    document.getElementById("create-post").style.display = "block"; // Show the create form
   });
 
-  // Optional: Close the login form when clicking on the overlay
+  // Optional: Close the create form when clicking on the overlay
   overlay.addEventListener("click", function () {
     overlay.style.display = "none"; // Hide the background overlay
-    document.getElementById("create-post-form").style.display = "none"; // Hide the login form
+    document.getElementById("create-post").style.display = "none"; // Hide the create form
   });
 
   const postForm = document.getElementById("create-post-form");
@@ -156,7 +166,6 @@ window.onload = function () {
     event.preventDefault();
 
     let formData = new FormData(event.target);
-    let token = localStorage.getItem("authToken"); // Get token from localStorage
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/posts", {

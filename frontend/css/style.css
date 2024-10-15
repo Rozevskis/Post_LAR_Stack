@@ -103,9 +103,9 @@ input[type="password"] {
 
 
 /* REgister */
-#register, #login, #create-post-form{
+#register, #login, #create-post{
     display: none;
-    z-index: 2;
+    z-index: 3;
     position: absolute;
     width: 800px;
     top: 30%; 
@@ -121,4 +121,43 @@ input[type="password"] {
     background-color: black;
     opacity: 0.5;
     z-index: 0;
+}
+
+
+.ugly1{
+    font-size: 3em; /* Huge font size */
+    color: limegreen; /* Bright green color */
+    text-shadow: 
+        3px 3px 0px pink, /* Pink shadow */
+        -1px -1px 0px yellow; /* Yellow shadow */
+    text-decoration: 
+        underline dotted red; /* Dotted red underline */
+    letter-spacing: 5px; /* Extra spacing between letters */
+    transform: rotate(5deg); /* Slightly rotated text */
+    background-color: teal; /* Teal background */
+    padding: 20px; /* Extra padding */
+    border: 5px dashed orange; /* Dashed orange border */
+}
+.ugly2{
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Classic ugly font */
+    font-size: 4em; /* Extra large font size */
+    color: purple; /* Bright purple color */
+    background: repeating-linear-gradient(
+        45deg,
+        orange,
+        orange 10px,
+        yellow 10px,
+        yellow 20px
+    ); /* Striped background */
+    text-shadow: 
+        4px 4px 0px green, /* Green shadow */
+        -2px -2px 0px blue; /* Blue shadow */
+    text-decoration: 
+        line-through wavy red, /* Wavy red line-through */
+        underline dashed pink; /* Dashed pink underline */
+    letter-spacing: -2px; /* Negative spacing for a crowded effect */
+    transform: skew(-10deg); /* Skewed text */
+    padding: 15px; /* Padding */
+    border: 10px double yellow; /* Double yellow border */
+    margin: 20px; /* Margin for spacing */
 }

@@ -53,12 +53,9 @@
         </form>
     </div>
 
-    <div class="container" id="create-post-form">
+    <div class="container" id="create-post">
         <h2>Create post</h2>
-        <form action="/api/posts" method="post">
-            <label for="token">Token</label>
-            <input type="text" name="token" id="token">
-
+        <form action="/api/posts" method="post" id="create-post-form">
             <label for="title">Title</label>
             <input type="text" name="title" id="title">
 
@@ -69,9 +66,14 @@
         </form>
         <div id="post-data"></div>
     </div>
-    <div class="container">
+    <div class="container" id="posts">
         <h2>Posts</h2>
         <div id="user-posts"></div>
+    </div>
+    <div class="container" id="welcome">
+        <h1  class="ugly1">Welcome to My Website!</h1>
+        <img src="https://viarcanvas.com/storage/gallery-items/November2020/iUBCHngpcMRaeJtVO0Gn.jpg" alt="Mcqueen">
+        <h3  class="ugly2">Login or register to view posts</h3>
     </div>
     <script src="js/app.js"></script>
 </body>
