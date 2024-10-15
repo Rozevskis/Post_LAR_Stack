@@ -18,7 +18,7 @@ class AuthController extends Controller
         $user = User::create($fields);
 
         $token = $user->createToken($request->name);
-        $plainTextToken = $token->plainTextToken;
+        $plainTextToken = $token->plainTextToken;   
     }
 
     public function login(Request $request) {

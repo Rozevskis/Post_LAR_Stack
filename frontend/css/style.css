@@ -4,7 +4,36 @@ body {
     padding: 0;
     background-color: #f4f4f4;
 }
+nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background-color: #333;
+    color: white;
+    padding: 1em;
+    text-align: center;
+}
+nav a{
+    
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
 
+/* Hover effect for submit button */
+nav a:hover {
+    background-color: #45a049;
+}
 /* Styling for the main header */
 h1 {
     text-align: center;
@@ -65,4 +94,8 @@ h1 {
 /* Hover effect for submit button */
 .container input[type="submit"]:hover {
     background-color: #45a049;
+}
+.auth-buttons{
+    display: flex;
+    gap: 20px;
 }

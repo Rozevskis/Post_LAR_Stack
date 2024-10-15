@@ -7,8 +7,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Laravel API frontend</h1>
-
+    <nav>
+        <h1>Laravel API frontend</h1>
+        <div class="auth-buttons">
+            <a href=" ">Login</a>
+            <a href=" ">Register</a>
+        </div>
+    </nav>
+    
     <div class="container">
         <h2>Login</h2>
         <!-- action="/api/login"  -->
