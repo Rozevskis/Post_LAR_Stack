@@ -1,10 +1,26 @@
 window.onload = function () {
-  //Register
+  // Elements
   const registerBtn = document.getElementById("register-link");
   const overlay = document.querySelector(".background");
   const registerForm = document.getElementById("register");
   const registerFormElement = document.getElementById("register-form");
+  const authButtons = document.querySelector(".auth-buttons");
+  const logoutLink = document.getElementById("logout-link");
+  const createLink = document.getElementById("create-link");
 
+  // Check authentication state on page load
+  const token = localStorage.getItem("authToken");
+  if (token) {
+    authButtons.style.display = "none"; // Hide login/register buttons
+    logoutLink.style.display = "block"; // Show logout button
+    createLink.style.display = "block"; // Show create button
+  } else {
+    authButtons.style.display = "flex"; // Show login/register buttons
+    logoutLink.style.display = "none"; // Hide logout button
+    createLink.style.display = "none"; // hide create button
+  }
+
+  // Register button click
   registerBtn.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the default anchor behavior
     overlay.style.display = "block"; // Show the background overlay
@@ -29,7 +45,7 @@ window.onload = function () {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.get("name"), // Get the name value
+          name: formData.get("name"),
           email: formData.get("email"),
           password: formData.get("password"),
           password_confirmation: formData.get("password_confirmation"),
@@ -38,15 +54,21 @@ window.onload = function () {
 
       const data = await response.json();
       if (response.ok) {
+        // Store the token in localStorage
+        localStorage.setItem("authToken", data.token);
+
         // Handle successful registration
-        document.getElementById("register-response").innerHTML = `
-              <p>Registration successful! Welcome, ${data.user.name}!</p>
-              <p>Email: ${data.user.email}</p>
-              <p>Your token: ${data.token}</p>
-          `;
-        // Optionally hide the form and overlay after successful registration
+        await fetchAllPosts(data.token);
+
+        // Hide the form and overlay after successful registration
         overlay.style.display = "none";
         registerForm.style.display = "none";
+        createLink.style.display = "block"; // Show create button
+
+        // Update UI
+        authButtons.style.display = "none"; // Hide the login/register buttons
+        logoutLink.style.display = "block"; // Show the logout button
+        createLink.style.display = "block"; // Show create button
       } else {
         // Handle errors
         document.getElementById(
@@ -61,13 +83,34 @@ window.onload = function () {
     }
   });
 
-  //Login
-  const loginForm = document.getElementById("login-form");
+  // Logout functionality
+  logoutLink.addEventListener("click", function () {
+    localStorage.removeItem("authToken"); // Remove the token from localStorage
+    authButtons.style.display = "flex"; // Show login/register buttons
+    logoutLink.style.display = "none"; // Hide the logout button
+    createLink.style.display = "none"; // Show create button
+  });
+
+  // Login overlay
+  // Login button click event
+  const loginBtn = document.getElementById("login-link");
+  loginBtn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default anchor behavior
+    overlay.style.display = "block"; // Show the background overlay
+    document.getElementById("login").style.display = "block"; // Show the login form
+  });
+
+  // Optional: Close the login form when clicking on the overlay
+  overlay.addEventListener("click", function () {
+    overlay.style.display = "none"; // Hide the background overlay
+    document.getElementById("login").style.display = "none"; // Hide the login form
+  });
+  // Login logic here (unchanged)
+  const loginForm = document.getElementById("login");
   loginForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     let formData = new FormData(event.target);
-    let token = formData.get("token");
     try {
       const response = await fetch("http://127.0.0.1:8000/api/login", {
         method: "POST",
@@ -82,46 +125,30 @@ window.onload = function () {
 
       const data = await response.json();
       if (response.ok) {
-        document.getElementById(
-          "response"
-        ).innerHTML = `<p>User Email: ${data.user.email}<br>
-        User Name: ${data.user.name}<br>
-        User Token: ${data.token}</p>`;
-        await fetchAllPosts(token);
+        overlay.style.display = "none";
+        loginForm.style.display = "none";
+        authButtons.style.display = "none";
+        logoutLink.style.display = "block";
+        createLink.style.display = "block";
+        await fetchAllPosts(data.token);
       }
     } catch (error) {
       console.log(error);
     }
   });
 
-  //Get user
-  const getForm = document.getElementById("get-user-form");
-  getForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
+  // Create post overlay
+  const createBtn = document.getElementById("create-link");
+  createBtn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default anchor behavior
+    overlay.style.display = "block"; // Show the background overlay
+    document.getElementById("create-post-form").style.display = "block"; // Show the login form
+  });
 
-    let formData = new FormData(event.target);
-    let token = formData.get("token");
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/html",
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        document.getElementById(
-          "user-data"
-        ).innerHTML = `<p>User Email: ${data.email}<br>
-                                                                    User Name: ${data.name}</p>`;
-        await fetchAllPosts(token);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  // Optional: Close the login form when clicking on the overlay
+  overlay.addEventListener("click", function () {
+    overlay.style.display = "none"; // Hide the background overlay
+    document.getElementById("create-post-form").style.display = "none"; // Hide the login form
   });
 
   const postForm = document.getElementById("create-post-form");
@@ -129,7 +156,7 @@ window.onload = function () {
     event.preventDefault();
 
     let formData = new FormData(event.target);
-    let token = formData.get("token");
+    let token = localStorage.getItem("authToken"); // Get token from localStorage
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/posts", {
@@ -150,7 +177,7 @@ window.onload = function () {
         document.getElementById(
           "post-data"
         ).innerHTML = `<p>Post Created Successfully!</p>
-                                                                  <p><strong>Title:</strong> ${data.title}, <strong>Body:</strong> ${data.body}</p>`;
+            <p><strong>Title:</strong> ${data.title}, <strong>Body:</strong> ${data.body}</p>`;
         await fetchAllPosts(token);
 
         document.getElementById("title").value = "";
@@ -186,11 +213,8 @@ window.onload = function () {
                     `;
         });
       }
-    } catch (error) {}
-  }
-
-  const token = document.getElementById("token").value;
-  if (token) {
-    fetchAllPosts(token);
+    } catch (error) {
+      console.error(error);
+    }
   }
 };

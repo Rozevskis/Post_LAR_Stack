@@ -12,8 +12,9 @@
         <div class="auth-buttons">
             <a href=" " id="login-link">Login</a>
             <a href=" " id="register-link">Register</a>
-            <a href=" " id="logout-link">Logout</a>
         </div>
+        <a href=" " id="create-link">Create post</a>
+        <a href=" " id="logout-link">Logout</a>
     </nav>
     
     <div class="background"></div>
@@ -39,35 +40,22 @@
     
 
 
-    <div class="container">
+    <div class="container" id="login">
         <h2>Login</h2>
-        <!-- action="/api/login"  -->
-        <form
-         method="post" id="login-form">
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email">
-            <label for="password">password</label>
-            <input type="text" name="password" id="password">
+        <form method="post" id="login-form">
+            <label for="login-email">Email</label>
+            <input type="text" name="email" id="login-email" required>
+            <label for="login-password">Password</label>
+            <input type="password" name="password" id="login-password" required>
 
-            <input type="submit" value="POST">
+            <input type="submit" value="Login">
             <div id="response"></div>
         </form>
     </div>
 
-    <div class="container">
-        <h2>Get user</h2>
-        <form action="/api/user" method="get" id="get-user-form">
-            <label for="token">Token</label>
-            <input type="text" name="token" id="token">
-
-            <input type="submit" value="Get">
-            <div id="user-data"></div>
-        </form>
-    </div>
-
-    <div class="container">
+    <div class="container" id="create-post-form">
         <h2>Create post</h2>
-        <form action="/api/posts" method="post" id="create-post-form">
+        <form action="/api/posts" method="post">
             <label for="token">Token</label>
             <input type="text" name="token" id="token">
 
