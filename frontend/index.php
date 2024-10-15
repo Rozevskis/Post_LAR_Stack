@@ -10,11 +10,35 @@
     <nav>
         <h1>Laravel API frontend</h1>
         <div class="auth-buttons">
-            <a href=" ">Login</a>
-            <a href=" ">Register</a>
+            <a href=" " id="login-link">Login</a>
+            <a href=" " id="register-link">Register</a>
+            <a href=" " id="logout-link">Logout</a>
         </div>
     </nav>
     
+    <div class="background"></div>
+    <div class="container" id="register">
+    <h2>Register</h2>
+    <form method="post" id="register-form">
+        <label for="register-name">Name</label>
+        <input type="text" name="name" id="register-name" required>
+
+        <label for="register-email">Email</label>
+        <input type="text" name="email" id="register-email" required>
+
+        <label for="register-password">Password</label>
+        <input type="password" name="password" id="register-password" required>
+
+        <label for="register-confirm-password">Confirm Password</label>
+        <input type="password" name="password_confirmation" id="register-confirm-password" required>
+
+        <input type="submit" value="Register">
+        <div id="register-response"></div>
+    </form>
+</div>
+    
+
+
     <div class="container">
         <h2>Login</h2>
         <!-- action="/api/login"  -->

@@ -19,6 +19,10 @@ class AuthController extends Controller
 
         $token = $user->createToken($request->name);
         $plainTextToken = $token->plainTextToken;   
+        return [
+            'user' => $user,
+            'token' => $token->plainTextToken
+        ];
     }
 
     public function login(Request $request) {

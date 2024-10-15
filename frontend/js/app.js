@@ -1,4 +1,66 @@
 window.onload = function () {
+  //Register
+  const registerBtn = document.getElementById("register-link");
+  const overlay = document.querySelector(".background");
+  const registerForm = document.getElementById("register");
+  const registerFormElement = document.getElementById("register-form");
+
+  registerBtn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default anchor behavior
+    overlay.style.display = "block"; // Show the background overlay
+    registerForm.style.display = "block"; // Show the registration form
+  });
+
+  // Optional: Add a click event to the overlay to close the registration form
+  overlay.addEventListener("click", function () {
+    overlay.style.display = "none"; // Hide the background overlay
+    registerForm.style.display = "none"; // Hide the registration form
+  });
+
+  // Register form submission
+  registerFormElement.addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    let formData = new FormData(event.target); // Get form data
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.get("name"), // Get the name value
+          email: formData.get("email"),
+          password: formData.get("password"),
+          password_confirmation: formData.get("password_confirmation"),
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // Handle successful registration
+        document.getElementById("register-response").innerHTML = `
+              <p>Registration successful! Welcome, ${data.user.name}!</p>
+              <p>Email: ${data.user.email}</p>
+              <p>Your token: ${data.token}</p>
+          `;
+        // Optionally hide the form and overlay after successful registration
+        overlay.style.display = "none";
+        registerForm.style.display = "none";
+      } else {
+        // Handle errors
+        document.getElementById(
+          "register-response"
+        ).innerHTML = `<p>Error: ${data.message}</p>`;
+      }
+    } catch (error) {
+      console.log(error);
+      document.getElementById(
+        "register-response"
+      ).innerHTML = `<p>An error occurred while registering.</p>`;
+    }
+  });
+
   //Login
   const loginForm = document.getElementById("login-form");
   loginForm.addEventListener("submit", async function (event) {

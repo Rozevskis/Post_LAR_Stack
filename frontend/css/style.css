@@ -68,7 +68,8 @@ h1 {
 
 .container input[type="text"],
 .container textarea,
-.container input[type="submit"] {
+.container input[type="submit"],
+input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -98,4 +99,29 @@ h1 {
 .auth-buttons{
     display: flex;
     gap: 20px;
+}
+/* Logout */
+#logout-link{
+    display: none;
+}
+
+/* REgister */
+#register {
+    display: none;
+    z-index: 2;
+    position: absolute;
+    width: 800px;
+    top: 30%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+}
+.background{
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 0;
 }
