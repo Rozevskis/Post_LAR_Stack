@@ -1,6 +1,7 @@
+import { useState } from 'react';
 export default function Register(){
 
-    cont [FormData, setFormData] = useState({
+    const [FormData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
