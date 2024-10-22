@@ -1,3 +1,4 @@
+import { data } from 'autoprefixer';
 import { useState } from 'react';
 export default function Register(){
 
@@ -8,7 +9,7 @@ export default function Register(){
         password_confirmation: '',
     });
 
-
+    const [errors, setErrors] = useState({});
 
     async function handleRegister(e){
         e.preventDefault();
@@ -17,8 +18,14 @@ export default function Register(){
             method: 'POST',
             body: JSON.stringify(FormData),
         });
+
         const data = await res.json();
-        console.log(data);
+
+        if (data.errors) {
+            setErrors(data.errors);
+        } else {
+            console.log(data);
+        }
     }
     
 
@@ -29,18 +36,21 @@ export default function Register(){
         <form onSubmit={handleRegister} className="w-1/2 mx-auto space-y-6">
             <div>
                 <input type="text" name="" placeholder="Name" value={FormData.name} onChange={(e) => setFormData({...FormData, name: e.target.value})}/>
+                {errors.name && <p className='error'>{errors.name[0]}</p>}
             </div>
 
             <div>
                 <input type="text" name="" placeholder="Email" value={FormData.email} onChange={(e) => setFormData({...FormData, email: e.target.value})}/>
+                {errors.email && <p className='error'>{errors.email[0]}</p>}
             </div>
 
             <div>
                 <input type="password" name="" placeholder="Password" value={FormData.password} onChange={(e) => setFormData({...FormData, password: e.target.value})}/>
+                {errors.password && <p className='error'>{errors.password[0]}</p>}
             </div>
 
             <div>
-                <input type="password" name="" placeholder="Password Confirmation" value={FormData.password_confirmation} onChange={(e) => setFormData({...FormData, password_confirmation: e.target.value})} />
+                <input type="password" name="" placeholder="Password Confirmation" value={FormData.password_confirmation} onChange={(e) => setFormData({...FormData, password_confirmation: e.target.value})}/>
             </div>
 
             <button type="submit" className="primary-btn">Register</button>
