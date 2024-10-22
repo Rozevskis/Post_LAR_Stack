@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Context/AppContext";
 
 export default function Register() {
-  const { token, setToken } = useContext(AppContext);
-
+  const {setToken } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [FormData, setFormData] = useState({
@@ -18,7 +17,6 @@ export default function Register() {
 
   async function handleRegister(e) {
     e.preventDefault();
-    console.log(FormData);
     const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(FormData),
