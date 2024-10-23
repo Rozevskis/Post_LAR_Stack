@@ -38,6 +38,9 @@ export default function Layout() {
               <p className="text-slate-400 text-xs">
                 Welcome back, {user.name}
               </p>
+              <Link to="/create" className="nav-link">
+                New post
+              </Link>
               <form onSubmit={handleLogout}><button className="nav-link">Logout</button></form>
             </div>
           ) : (
